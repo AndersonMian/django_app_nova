@@ -1,0 +1,44 @@
+<!-- templates/dashboard.html -->
+{% extends "index.html" %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Tableau de Bord</h1>
+    <div class="stats-container">
+        <div class="stat-card bg-primary">
+            <h3>Interventions en cours</h3>
+            <p class="stat-value">{{ interventions_en_cours }}</p>
+        </div>
+        <div class="stat-card bg-success">
+            <h3>Clients actifs</h3>
+            <p class="stat-value">{{ clients_actifs }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="recent-activities">
+    <h2>Activités Récentes</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Client</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for intervention in recent_interventions %}
+            <tr>
+                <td>{{ intervention.code }}</td>
+                <td>{{ intervention.client.nom }}</td>
+                <td>
+                    <span class="status-badge status-{{ intervention.statut }}">
+                        {{ intervention.get_statut_display }}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+# ENVIRONNEMENT PYTHON & DJANGO
+*.py[cod]
+__pycache__/
+*.so
+
+db.sqlite3
+media/
+staticfiles/
+static/
+
+*.log
+
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+.env
+.env.*
+secrets.json
+
+# PYCHARM
+.idea/
+
+# FICHIERS DU SYSTÈME
+.DS_Store
+Thumbs.db
+
+# NODE (si utilisé)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# COVERAGE & BUILD
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+*.py,cover
+build/
+dist/
+*.egg-info/
+.eggs/

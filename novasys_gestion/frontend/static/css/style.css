@@ -1,0 +1,60 @@
+/* frontend/static/css/novasys.css */
+:root {
+  --primary-dark: #2c3e50;    /* Bleu foncé pour header/sidebar */
+  --primary-light: #3498db;   /* Bleu clic éléments interactifs */
+  --accent-red: #e74c3c;      /* Rouge pour alertes/actions critiques */
+  --text-light: #ecf0f1;      /* Texte clair sur fond sombre */
+}
+/*Responsive code*/
+@media (max-width: 768px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}
+
+/* static/css/style.css */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    min-height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.logo-container, #imgsize{
+    width: 10px;
+    height: 35px;
+}
+
+.content {
+    margin-left: 300px;
+    padding: 30px;
+    background-color: #f5f6fa;
+}
+
+/* Palette conforme au mémoire */
+.btn-primary {
+    background-color: #3498db;
+    border-color: #2980b9;
+}
+
+.alert-warning {
+    background-color: #f1c40f;
+    color: #2c3e50;
+}
