@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.interventions.apps.InterventionsConfig',
     'apps.reporting',
     'apps.core',
+    'intervention',
 ]
 
 REST_FRAMEWORK = {
@@ -96,7 +97,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bd_app_novatech',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
         'PORT': '5432',  # Par défaut
     }

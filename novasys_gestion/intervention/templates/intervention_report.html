@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Rapport d’intervention</title>
+    <style>
+        body { font-family: Arial; font-size: 14px; }
+        h1 { text-align: center; }
+        .section { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Rapport d’Intervention</h1>
+
+    <div class="section">
+        <strong>Description :</strong> {{ intervention.description }}<br>
+        <strong>Date :</strong> {{ intervention.date }}<br>
+        <strong>Technicien :</strong> {{ intervention.technician.username }}<br>
+        <strong>Statut :</strong> {{ intervention.status }}<br>
+    </div>
+
+    {% if intervention.client_signature %}
+    <div class="section">
+        <strong>Signature client :</strong><br>
+        (Encodée en base64)
+    </div>
+    {% endif %}
+
+    <footer>
+        <hr>
+        Rapport généré automatiquement
+    </footer>
+</body>
+</html>
