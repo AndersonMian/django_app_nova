@@ -6,4 +6,4 @@ admin.site.site_title = "Tableau de bord NOVASYS"
 admin.site.index_title = "Gestion des interventions"
 
 # Tri par nom d'applications
-admin.AdminSite.index_template = 'admin/custom_index.html'
+# admin.AdminSite.index_template = 'admin/custom_index.html'
