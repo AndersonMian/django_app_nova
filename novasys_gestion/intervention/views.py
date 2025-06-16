@@ -39,9 +39,11 @@ class InterventionViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_superuser:
-            return Intervention.objects.all()
-        return Intervention.objects.filter(technician=user)
+        if user.is_staff or user.is_superuser:
+            return Intervention.objects.all().order_by('-created_at')
+        else:
+            return Intervention.objects.filter(technician=user).order_by('-created_at')
+
     
     @action(detail=True, methods=['patch'], url_path='assign', url_name='assign-technician')
     def assign_technician(self, request, pk=None):
@@ -68,6 +70,22 @@ class InterventionViewSet(viewsets.ModelViewSet):
             return Response({"error": "Intervention introuvable"}, status=404)
         except Group.DoesNotExist:
             return Response({"error": "Le groupe Technicien n'existe pas"}, status=500)
+        
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def signer(self, request, pk=None):
+        intervention = self.get_object()
+
+        if request.user != intervention.technician and not request.user.is_staff:
+            return Response({"detail": "Non autorisé"}, status=403)
+
+        signature = request.data.get("client_signature")
+        if not signature:
+            return Response({"error": "Signature requise"}, status=400)
+
+        intervention.client_signature = signature
+        intervention.save()
+        return Response({"message": "Signature enregistrée avec succès."})
+
 
 class TechnicienListView(APIView):
     permission_classes = [IsAuthenticated]
