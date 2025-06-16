@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import InterventionViewSet
+from .views import InterventionViewSet, MobileLoginView, SyncInterventionsView
 from .views import TechnicienListView
 from .views import TechnicianLocationView
 from .views import TechnicianLocationByIdView
@@ -18,5 +18,9 @@ urlpatterns = [
     path('techniciens/position/', TechnicianLocationView.as_view(), name="technicien-position"),
     path('technicien/position/<int:technician_id>/', TechnicianLocationByIdView.as_view(), name='technicien-position-by-id'),
     path('intervention/<int:pk>/pdf/', generate_intervention_pdf, name="generate-intervention-pdf"),
+    path('mobile-login/', MobileLoginView.as_view(), name='mobile-login'),
+
+    # Synchronisation des interventions
+    path('sync-interventions/', SyncInterventionsView.as_view(), name='sync-interventions'),
 
 ]
