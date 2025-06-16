@@ -65,3 +65,37 @@ Récapitulatif complet et structuré de toutes les routes disponibles de l'API, 
 | Changer le statut             | PATCH   | /api/interventions/3/        | { "status": "en\_cours" }                            |
 | Faire signer une intervention | POST    | /api/interventions/3/signer/ | { "client\_signature": "data\:image/png;base64..." } |
 | Imprimer le rapport (PDF)     | GET     | /api/interventions/3/pdf/    | → Renvoie un PDF                                     |
+
+🔹 7. Pour le mobile
+## API Mobile Documentation
+
+### Authentication
+**Endpoint**: `POST /api/intervention/mobile-login/`  
+**Body**:
+```json
+{
+  "username": "votre_utilisateur",
+  "password": "votre_mdp"
+}
+Reponse Attendu
+{
+  "token": "abc123...",
+  "user_id": 1,
+  "username": "tech1",
+  "is_technician": true,
+  "is_admin": false
+}
+**Endpoint**: 'GET /api/intervention/sync-interventions/'
+**HEADER**: Authorization: "Token abc123..."(exemple)
+Reponse attendu
+{
+  "last_sync": "2023-06-16T12:30:00Z",
+  "interventions": [
+    {
+      "id": 1,
+      "description": "Réparation chaudière",
+      "status": "in_progress",
+      // ... autres champs
+    }
+  ]
+}
