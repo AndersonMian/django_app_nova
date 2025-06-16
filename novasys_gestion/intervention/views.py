@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .models import Intervention
@@ -24,6 +25,9 @@ from rest_framework.permissions import IsAuthenticated
 from .models import TechnicianLocation
 from .serializers import TechnicianLocationSerializer
 from rest_framework.generics import RetrieveUpdateAPIView
+
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -178,3 +182,46 @@ class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all().order_by('-created_at')
     serializer_class = ClientSerializer
     permission_classes = [IsAuthenticated]
+
+#pour le volet mobile
+class MobileLoginView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+
+        # Vérifier le groupe utilisateur
+        is_technician = user.groups.filter(name='Techniciens').exists()
+
+        return Response({
+            'token': token.key,
+            'user_id': user.pk,
+            'username': user.username,
+            'is_technician': is_technician,
+            'is_admin': user.is_staff
+        })
+
+
+class SyncInterventionsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        last_sync = request.query_params.get('last_sync')
+
+        try:
+            last_sync_date = timezone.datetime.fromisoformat(last_sync)
+        except (TypeError, ValueError):
+            last_sync_date = None
+
+        interventions = Intervention.objects.filter(technician=request.user)
+
+        if last_sync_date:
+            interventions = interventions.filter(updated_at__gte=last_sync_date)
+
+        serializer = InterventionSerializer(interventions, many=True)
+        return Response({
+            'last_sync': timezone.now().isoformat(),
+            'interventions': serializer.data
+        })

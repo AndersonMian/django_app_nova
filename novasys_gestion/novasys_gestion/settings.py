@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-&u96r-8^%(jh%1lg-fes4rsz6knbqyixj8hr@r#w^9$^3e9dyw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,14 +49,31 @@ INSTALLED_APPS = [
     'apps.reporting',
     'apps.core',
     'intervention',
+    'adminlte3',
+    'adminlte3_theme',
+    'corsheaders',
+
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',  # ← requis pour l'interface web
     ),
 }
+
+# Autoriser toutes les origines pendant le développement
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Ou en production :
+CORS_ALLOWED_ORIGINS = [
+    "https://novatech.com",
+    "http://localhost:3000",
+]
 
 
 MIDDLEWARE = [
